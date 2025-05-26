@@ -1,56 +1,55 @@
 # DIY Music Player: A Web-Based Music Streaming Platform
 
-This project involves building a customized, web-based music player similar to Spotify, utilizing AWS infrastructure and modern web technologies. The objective is to demonstrate proficiency in managing music data, storing metadata in relational databases, and building an API to serve music data. The key steps involve:
+This project aims to create a web-based music streaming platform, similar to Spotify, built using AWS infrastructure and modern web technologies. The goal is to demonstrate proficiency in managing music data, storing metadata in relational databases, and building an API to serve music data.
 
-- Organizing and creating data files based on a defined schema.
-- Using modern techniques to ingest and store data.
-- Storing song metadata in a relational database.
-- Exposing this data through a FastAPI-based API.
+---
 
-Explore the project through the following links:
-- **Frontend Example**: [Live Demo](http://nem2p-dp1-spotify.s3-website-us-east-1.amazonaws.com/)
-- **API Endpoints**:
-  - [Songs API](https://bv1e9klemd.execute-api.us-east-1.amazonaws.com/api/songs)
-  - [Genres API](https://bv1e9klemd.execute-api.us-east-1.amazonaws.com/api/genres)
+## Key Features
+- **Data Organization**: Songs and metadata are stored in a structured format based on a well-defined schema.
+- **Data Ingestion**: Modern techniques are used to ingest and store data.
+- **FastAPI Backend**: A custom FastAPI API serves song and genre data in real-time.
+- **AWS Infrastructure**: The project leverages AWS for cloud storage, serverless functions, and database management.
+
+---
 
 ## Project Setup
 
 ### 1. Fork and Clone the Repository
-
-Start by forking this repository to track your progress. You don’t need to submit pull requests back to the upstream; simply push your changes to your own fork.
+Fork this repository to track your progress. There's no need to submit pull requests to the upstream repository. Push your changes to your own fork and work on the project at your pace.
 
 ### 2. Infrastructure Overview
-
-The project leverages AWS CloudFormation templates to automate resource creation. Here's an overview of the key components:
+The project utilizes AWS CloudFormation templates to automate the creation of resources. Here's a breakdown of the key components:
 
 #### S3 Bucket
-The project creates an S3 bucket for storing music files, metadata, and images. The bucket is configured to allow public access and serve as a website for the frontend interface. You will upload song bundles (MP3, JSON metadata, JPG image) to this bucket.
+An S3 bucket is used to store music files (**MP3**), metadata (**JSON**), and album images (**JPG**). This bucket is configured to allow public access and serves as the storage backbone for the frontend interface.
 
 #### Lambda Function
-An AWS Lambda function, created using the Python framework **Chalice**, is triggered when a new `.json` metadata file is uploaded to the S3 bucket. This function processes the song metadata and stores it in the database.
+An AWS **Lambda** function, built with **Chalice** in Python, is triggered when a new `.json` metadata file is uploaded to the S3 bucket. This function processes the song metadata and stores it in the database.
 
 #### Database Service
-A shared RDS instance is used to store the song metadata. You will create tables for songs and genres and configure the database connection within the application.
+A shared **RDS** instance is used for storing song metadata. The database consists of two tables: `songs` and `genres`. The backend connects to the database to retrieve and serve song data via the API.
 
 #### EC2 Instance
-An EC2 instance is set up to run a FastAPI container, which serves the music data via API endpoints. The FastAPI container will be linked to the RDS database to retrieve and serve song data.
+An **EC2** instance runs a **FastAPI** container that exposes the song data via API endpoints. The FastAPI container is linked to the RDS database to serve song metadata in real-time.
 
-### 3. Data Flow: Adding a Song
+---
 
-Here’s the step-by-step process when a new song is uploaded to the system:
+## Data Flow: Adding a Song
 
-1. **Upload Song Bundle**: A song bundle (MP3, metadata, and album image) is uploaded to the S3 bucket.
-2. **Trigger Lambda**: The Lambda function is triggered by the arrival of a new `.json` metadata file.
-3. **Parse Metadata**: The Lambda function extracts the metadata from the `.json` file and calculates the S3 URIs for the MP3 and image files.
+The following steps describe how a new song is added to the system:
+
+1. **Upload Song Bundle**: Upload a song bundle (**MP3 file**, **metadata in JSON**, and **album image**) to the S3 bucket.
+2. **Trigger Lambda**: The Lambda function is triggered when the new `.json` metadata file is uploaded.
+3. **Parse Metadata**: The Lambda function extracts metadata from the JSON file and generates the S3 URIs for the MP3 and image files.
 4. **Store Data**: The metadata is inserted into the `songs` table in the RDS database.
-5. **API Availability**: The song metadata is immediately accessible through the `/songs` API endpoint.
-6. **Update Frontend**: The web interface is updated to display the new song, which can be accessed via the S3 website URL.
+5. **API Availability**: The song metadata becomes immediately available through the `/songs` API endpoint.
+6. **Update Frontend**: The web interface is updated with the new song, accessible via the S3 website URL.
 
-### 4. Database Setup
+---
 
-You will set up two tables in the RDS database: `songs` and `genres`. Use the SQL schema provided to create these tables, and then seed the database with an initial song entry.
+## Database Setup
 
-Here’s the schema for the tables:
+The project uses two tables in the RDS database: **songs** and **genres**. Below is the SQL schema to create the tables and seed them with initial data.
 
 **Genres Table**
 ```sql
