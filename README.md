@@ -14,10 +14,7 @@ This project aims to create a web-based music streaming platform, similar to Spo
 
 ## Project Setup
 
-### 1. Fork and Clone the Repository
-Fork this repository to track your progress. There's no need to submit pull requests to the upstream repository. Push your changes to your own fork and work on the project at your pace.
-
-### 2. Infrastructure Overview
+### Infrastructure Overview
 The project utilizes AWS CloudFormation templates to automate the creation of resources. Here's a breakdown of the key components:
 
 #### S3 Bucket
